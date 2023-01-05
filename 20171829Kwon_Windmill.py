@@ -56,23 +56,19 @@ degree = 10
 
 poly2=np.array( [[0,0,1], [200,-100,1], [300,0,1], [200,100,1]])
 poly2=poly2.T
-cor2=np.array([10,10,1])
-degree2=100
+degree2=10
 
 poly3=np.array( [[0,0,1], [200,-100,1], [300,0,1], [200,100,1]])
 poly3=poly3.T
-cor3=np.array([10,10,1])
-degree3=190
+degree3=10+90
 
 poly4=np.array( [[0,0,1], [200,-100,1], [300,0,1], [200,100,1]])
 poly4=poly4.T
-cor4=np.array([10,10,1])
-degree4=280
+degree4=10+180
 
 poly5=np.array( [[0,0,1], [200,-100,1], [300,0,1], [200,100,1]])
 poly5=poly5.T
-cor5=np.array([10,10,1])
-degree5=370
+degree5=10+270
 
 
 # 폰트 선택(폰트, 크기, 두껍게, 이탤릭)
@@ -90,13 +86,11 @@ while not done:
 
     # 다각형 그리기
     # poly: 3xN 
-#    pygame.draw.polygon(screen, WHITE, poly[:2].T, 4)
     pygame.draw.polygon(screen, GREEN, ((400,WINDOW_HEIGHT),(500,WINDOW_HEIGHT-200),(WINDOW_WIDTH-500,WINDOW_HEIGHT-200),(WINDOW_WIDTH-400,WINDOW_HEIGHT)))
     pygame.draw.polygon(screen, BLACK, ((800,WINDOW_HEIGHT-200),(850,WINDOW_HEIGHT-600),(WINDOW_WIDTH/2,WINDOW_HEIGHT-700),
         (WINDOW_WIDTH-850,WINDOW_HEIGHT-600),(WINDOW_WIDTH-800,WINDOW_HEIGHT-200)), 4)
 #    pygame.draw.polygon(screen, RED, poly2[:2].T, 4)
     
-
     degree += 1
     H = Tmat(WINDOW_WIDTH/2,WINDOW_HEIGHT-700) @ Tmat(0,0) @ Rmat(degree) @ Tmat(0,0)
     pp = H @ poly
@@ -107,33 +101,24 @@ while not done:
 #    pygame.draw.circle(screen, (255, 128, 128), corp[:2], 3)
 
     degree2 += 1
-    H2 = Tmat(WINDOW_WIDTH/2,WINDOW_HEIGHT-700) @ Tmat(0,0) @ Rmat(degree2) @ Tmat(0,0) @ Rmat(90)
-    pp2 = H2 @ poly2
-    corp2 = H2 @ cor2
-    q2 = pp2[0:2, :].T # N x 2 matrix
-    pygame.draw.polygon(screen, DEEPBROWN, q2)
-
     degree3 += 1
-    H3 = Tmat(WINDOW_WIDTH/2,WINDOW_HEIGHT-700) @ Tmat(0,0) @ Rmat(degree3) @ Tmat(0,0) @ Rmat(180)
-    pp3 = H3 @ poly3
-    corp3 = Rmat(180)@ H3 @ cor3
-    q3 = pp2[0:2, :].T # N x 2 matrix
-    pygame.draw.polygon(screen, DEEPBROWN, q3)
-
     degree4 += 1
-    H4 = Tmat(WINDOW_WIDTH/2,WINDOW_HEIGHT-700) @ Tmat(0,0) @ Rmat(degree4) @ Tmat(0,0)
-    pp4 = H4 @ poly4
-    corp4 = H2 @ cor4
-    q4 = pp4[0:2, :].T # N x 2 matrix
-    pygame.draw.polygon(screen, DEEPBROWN, q4)
-
     degree5 += 1
-    H5 = Tmat(WINDOW_WIDTH/2,WINDOW_HEIGHT-700) @ Tmat(0,0) @ Rmat(degree5) @ Tmat(0,0)
-    pp5 = H5 @ poly5
-    corp5 = H2 @ cor5
-    q5 = pp5[0:2, :].T # N x 2 matrix
-    pygame.draw.polygon(screen, DEEPBROWN, q5)
 
+    H2 = Tmat(WINDOW_WIDTH/2,WINDOW_HEIGHT-700) @ Tmat(0,0) @ Rmat(degree2) @ Tmat(0,0)
+    H3 = Tmat(WINDOW_WIDTH/2,WINDOW_HEIGHT-700) @ Tmat(0,0) @ Rmat(degree3) @Rmat(90) @ Tmat(0,0) 
+    H4 = Tmat(WINDOW_WIDTH/2,WINDOW_HEIGHT-700) @ Tmat(0,0) @ Rmat(degree4) @Rmat(90) @Rmat(90) @ Tmat(0,0) 
+    H5 = Tmat(WINDOW_WIDTH/2,WINDOW_HEIGHT-700) @ Tmat(0,0) @ Rmat(degree5) @Rmat(90)@Rmat(90)@Rmat(90)@ Tmat(0,0)
+
+    pp2 = H2 @ poly2
+    pp3 = H3 @ poly2
+    pp4 = H4 @ poly2
+    pp5 = H5 @ poly2
+
+    pygame.draw.polygon(screen, DEEPBROWN, pp2[0:2, :].T,4)
+    pygame.draw.polygon(screen, DEEPBROWN, pp3[0:2, :].T,4)
+    pygame.draw.polygon(screen, DEEPBROWN, pp4[0:2, :].T,4)
+    pygame.draw.polygon(screen, DEEPBROWN, pp5[0:2, :].T,4)
 
     # 안티얼리어스를 적용하고 검은색 문자열 렌더링
     text = font.render("20171829 KWON_WINDMILL", True, BLACK)
